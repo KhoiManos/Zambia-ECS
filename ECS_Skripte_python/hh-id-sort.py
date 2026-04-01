@@ -3,19 +3,21 @@ import os
 import shutil  
 
 
-ordner = "ECS_CLEAN"
+ordner = "ECS_RAW"
 auswertung = "ECS_HHID"
 fuelAuswertung = "ECS_FUEL"
+exactAuswertung = "ECS_EXACT"
 all_data = os.listdir(ordner)
 auswertung_pfad = os.listdir(auswertung)
 fuelAuswertung_pfad = os.listdir(fuelAuswertung)
 
 
-
-
 for datei in all_data:
 
-    if datei.endswith(".csv") & datei.startswith("FUEL"): # nur FUEL Dateien (für HHID-Sortierung einfach auslassen)
+    if datei.endswith(".csv"): 
+        # Option nur FUEL oder nur EXACT Dateien
+        # & datei.startswith("FUEL")
+        # & datei.startswith("EXACT")
 
         dateipfad = os.path.join(ordner, datei)
         df = pd.read_csv(dateipfad, skiprows=1, header=None, nrows=10, encoding='latin-1')
@@ -25,7 +27,7 @@ for datei in all_data:
         hhid = zeile[1]
 
         # Ordner erstelen und Dateien kopieren (Argument anpassen, damit es in den richtigen Ordner kommt)
-        newFolder = os.path.join(fuelAuswertung, hhid)
+        newFolder = os.path.join(auswertung, hhid)
         os.makedirs(newFolder, exist_ok=True)
 
         # Datei zu neuem Pfad kopieren

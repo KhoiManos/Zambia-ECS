@@ -1,0 +1,12 @@
+TODO
+
+1. ECS Data cleaning
+- remove duplicates (lowest and highest timestamps comparision (probably as an Interval)) (and if sensor id, hhid and timestamp same)
+- remove files with unrealistic end timestamps (longest time frame is 8 days and if longer than shorten to 7)
+- 
+
+2. Sort Data
+
+ARM, HH_ID, charcoal, pellet,
+
+extra table für electric

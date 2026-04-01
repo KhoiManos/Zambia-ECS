@@ -1,0 +1,49 @@
+Analyse der Excel-Tabelle: Logische Struktur & Evaluierungszweck
+Was ist das für ein Projekt?
+Dies ist ein Kitchen Performance Test (KPT) — eine standardisierte Methode zur Messung von realem Brennstoffverbrauch in Haushalten. Das Projekt wurde in Zambia durchgeführt (Lusaka & Copperbelt), mit dem Ziel, verschiedene Kochmethoden zu vergleichen.
+Die zwei Gruppen sind:
+
+Baseline — Haushalte ohne neue Technologie (Kontrollgruppe)
+Project — Haushalte mit neuem Kochofen (Supamoto/Mimimoto = Pelletofen)
+
+
+Die 10 Sheets und ihre logische Rolle
+Datenerfassung (Rohdaten):
+
+dKPT questionaire + dKPT questionaire (2) — Vollständige Fragebögen vom Feldteam: Haushaltsdaten, GPS, Stoveinventarisierung, Sensor-Deployment, Verhaltensregeln, Gesundheitssymptome
+group_ep8uc00 — Detaillierte Sensor-Zuordnung (welcher EXACT-Sensor auf welchem Herd)
+
+Sensor-Datenverarbeitung:
+
+ce_list_fuel — Jedes einzelne Kochereignis (CE = Cooking Event): Startzeit, Endzeit, Dauer, Brennstoffmenge, Herd, Sensor
+fuel_use_list_matched — Brennstoffmengen aus den FUEL-Sensoren, gematcht mit Kochereignissen
+
+Qualitätsprüfung:
+
+Completeness check — Pro Haushalt: Wurden Sensoren korrekt eingesetzt? Wurden Daten heruntergeladen? COMPLETENESS-Spalten sind alle #ERROR! — hier liegt das strukturelle Problem der Excel
+hh_summary_orphan_events — Wie viele Kochereignisse konnten nicht mit Brennstoffmessungen gematcht werden (% matched events)
+
+Aggregation:
+
+ce_fuel_summary_period — Pro Haushalt und Brennstoff: aggregierter Verbrauch und Dauer pro Messzeitraum, mit Flags für Non-Compliance und Outlier
+Details — Pro Haushalt: Nutzungsfrequenz, Anzahl compliant periods, mittlerer Verbrauch pro Brennstoff
+
+Auswertung:
+
+ANALYSIS — Das Endergebnis: Baseline vs. Project, aufgeschlüsselt nach Brennstoff (charcoal kg/Tag, electricity Minuten, pellet kg/Tag, firewood kg/Tag)
+
+
+Was wird evaluiert — und warum?
+Die Sortier- und Aggregationslogik zielt auf drei Evaluierungsfragen ab:
+1. Verbrauchsvergleich (Effizienz): Wie viel Brennstoff verbraucht ein Haushalt pro Tag? Das ANALYSIS-Sheet zeigt z.B. dass Project-Haushalte weniger Charcoal verbrauchen (1,09 vs. 1,74 kg/Tag) — das ist der Kernaustausch: Pellet ersetzt Holzkohle.
+2. Datenvollständigkeit (Validität): Der Completeness check und hh_summary_orphan_events sollen sicherstellen, dass die Messdaten verlässlich sind. Ohne vollständige Sensor-Daten ist der Vergleich nicht staatlich vorzeigbar.
+3. Verhaltensänderung (Adoption): Die Frequenzdaten (Once per day, Twice or more, etc.) und die period-basierte Auswertung in ce_fuel_summary_period zeigen, ob Haushalte tatsächlich auf Pellet umgestiegen sind.
+
+Das eigentliche Problem mit der bestehenden Excel
+Die #ERROR!-Zellen im Completeness check-Sheet stammen wahrscheinlich aus Referenzen auf externe Dateien (CSV-Rohdaten), die lokal nicht verknüpft sind. Das macht die Vollständigkeitsprüfung unbrauchbar — und damit auch die Interpretation des ANALYSIS-Sheets unsicher, weil man nicht sieht, welche Haushalte valide Daten lieferten.
+Was für den Staat tatsächlich relevant wäre:
+
+Mean fuel consumption Baseline vs. Project (bereits in ANALYSIS, aber ohne Konfidenzintervall)
+Prozentualer Rückgang bei Charcoal/Firewood
+Adoption Rate: Wie viele Haushalte nutzen den Pelletofen regelmäßig?
+Matched Events Rate als Qualitätsindikator
