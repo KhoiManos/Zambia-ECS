@@ -1,5 +1,0 @@
-für fuel tabelle
-
-Spalten:
-
-Household ID, Average Fuel Consumed (Änderungen pro Spalte, aufaddiert, geteilt durch Anzahl), Per Day, Fuel Type

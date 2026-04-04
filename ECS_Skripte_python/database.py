@@ -2,7 +2,6 @@ import sqlite3
 import pandas as pd
 import os
 import glob
-import sqlite3
 
 # this file's purpose is to read all csv files and turn them in to a database, so that we can easily access the data for our analysis.
 

@@ -1,4 +1,3 @@
-
 import pandas as pd
 import os
 import shutil  
@@ -16,6 +15,7 @@ sensor_id = str(df.iloc[3, 1]).strip()
 max_temp = str(df.iloc[8, 1]).strip()
 name = str(df.iloc[10, 1]).strip()
 cooking_days = str(df.iloc[13, 1]).strip()
+timestamp = str(df.iloc[5, 1]).strip()
 
 
 print(hhid)
@@ -23,6 +23,7 @@ print(sensor_id)
 print(max_temp)
 print(name)
 print(cooking_days)
+print(type(timestamp))
 
 
 

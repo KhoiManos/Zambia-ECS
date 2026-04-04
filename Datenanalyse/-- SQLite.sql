@@ -1,2 +1,2 @@
 -- SQLite
-SELECT Timestamp FROM fuel_ecs_1
+SELECT * FROM "EXACTv2 29262_2025-11-29_15-01-16_CLEAN"
