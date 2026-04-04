@@ -19,6 +19,9 @@ all_exact_folders = glob.glob(search_path_exact, recursive=True)
 time_format = "%Y-%m-%d %H:%M:%S"
 
 def remove_duplicates(all_folders):
+    """removes all files where its timestamp is fully covered by another file 
+    with the same sensor_id and hh_id.
+    """
     delete_count = 0
 
     for folder in all_folders:
@@ -84,6 +87,9 @@ def remove_duplicates(all_folders):
                 print(f"kapow: {os.path.basename(file_path)}")
                 print(f"+ deleted files: {delete_count}")
 
+        print(f"{delete_count}")
+
 
 remove_duplicates(all_fuel_folders)
 remove_duplicates(all_exact_folders)
+

@@ -3,7 +3,8 @@ import pandas as pd
 import os
 import glob
 
-# this file's purpose is to read all csv files and turn them in to a database, so that we can easily access the data for our analysis.
+# this file's purpose is to read all csv files and turn them in to a database, 
+# so that we can easily access the data for our analysis.
 
 current_folder = os.path.dirname(__file__)
 project_folder = os.path.dirname(current_folder)
@@ -21,6 +22,7 @@ search_path_exact = os.path.join(project_folder, "ECS_EXACT", "**", "*.csv")
 all_exact_files = glob.glob(search_path_exact, recursive=True)
 
 def process_csv_files(all_files, conn, category):
+    """reads all csv files, extracts meta data and data, connects them and writes to database."""
     for file in all_files:
         table_name = os.path.basename(file).split('.')[0]
 
