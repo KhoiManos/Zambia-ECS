@@ -1,32 +1,41 @@
 import pandas as pd
 import os
-import shutil  
+import glob
+import shutil
 
 # This file is for testing purposes, to check if we can read the meta data and the data from the csv files correctly. It is not part of the final code, but it helps us to understand how to extract the information we need for our analysis.
 
-ordner = "ECS_RAW"
-ornder_pfad = os.path.dirname(ordner)
+current = os.path.dirname(__file__)
+project = os.path.dirname(current)
 
-datei_pfad= os.path.join(ordner, 'EXACTv2 29262_2025-11-29_14-56-13_CLEAN.csv')
-df = pd.read_csv(datei_pfad, skiprows=1, header=None, nrows=14, encoding='latin-1')
-
-hhid = str(df.iloc[2, 1]).strip()
-sensor_id = str(df.iloc[3, 1]).strip()
-max_temp = str(df.iloc[8, 1]).strip()
-name = str(df.iloc[10, 1]).strip()
-cooking_days = str(df.iloc[13, 1]).strip()
-timestamp = str(df.iloc[5, 1]).strip()
+ornder_pfad = os.path.join(project, "ECS_HHID")
+subordner_pfad = os.path.join(ornder_pfad, "301")
+folder_list = []
+folder_list.append(subordner_pfad)
 
 
-print(hhid)
-print(sensor_id)
-print(max_temp)
-print(name)
-print(cooking_days)
-print(type(timestamp))
+def remove_longtime(folders):
+    for folder in folders:
+        if not os.path.isdir(folder):
+            print("no")
+            continue
+
+        csv_files = glob.glob(os.path.join(folder, "*.csv"))
+
+        for file in csv_files:
+            try:
+                df = pd.read_csv(file, skiprows=17, header=None, encoding="latin-1", nrows = 5041)
+                firstStamp = df.iloc[1:2]
+                lastStamp = df.iloc[-1:]
+                print(file)
+                print("__start___")
+                print(firstStamp)
+                print ("_end__")
+                print(lastStamp)
+                print ("______")
+
+            except Exception as e:
+                print(f"No good at {file}: {e}")
 
 
-
-            
-    
-
+remove_longtime(folder_list)

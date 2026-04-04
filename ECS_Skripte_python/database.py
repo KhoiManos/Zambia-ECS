@@ -22,7 +22,10 @@ search_path_exact = os.path.join(project_folder, "ECS_EXACT", "**", "*.csv")
 all_exact_files = glob.glob(search_path_exact, recursive=True)
 
 def process_csv_files(all_files, conn, category):
-    """reads all csv files, extracts meta data and data, connects them and writes to database."""
+    """reads all csv files, extracts meta data and data, connects them and writes to database.
+     IMPORTANT: this function also cuts the .csv files to one week of data gathered.
+     This function is not modular
+    """
     for file in all_files:
         table_name = os.path.basename(file).split('.')[0]
 
@@ -37,7 +40,8 @@ def process_csv_files(all_files, conn, category):
                 fuel_type = str(meta_df.iloc[9, 1]).strip()
                 consumption = str(meta_df.iloc[12, 1]).strip()
 
-                df = pd.read_csv(file, skiprows = 17, encoding='latin-1')
+                # reading the rest and cut it to one week of data
+                df = pd.read_csv(file, skiprows = 17, encoding='latin-1',  nrows = 10081)
 
                 # connecting meta data and data
                 df['hh_id'] = hhid
@@ -57,7 +61,8 @@ def process_csv_files(all_files, conn, category):
                 name = str(df.iloc[10, 1]).strip()
                 cooking_days = str(df.iloc[13, 1]).strip()
 
-                df = pd.read_csv(file, skiprows = 17, encoding='latin-1')
+                # reading the rest and cut it to one week of data
+                df = pd.read_csv(file, skiprows = 17, encoding='latin-1', nrows = 5041)
 
                 # connecting meta data and data
                 df['hh_id'] = hhid
